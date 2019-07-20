@@ -1,5 +1,7 @@
 # terraform_libvirt
 
+[![GitHub releases](https://img.shields.io/github/release/satandyh/terraform_libvirt.svg)](https://github.com/satandyh/terraform_libvirt/releases)
+
 This repo creates some count of centos7-cloud VMs.  
 Main purpose were test and learn terraform.
 
