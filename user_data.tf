@@ -1,9 +1,9 @@
 data "template_cloudinit_config" "user_data" {
-	gzip = false
+  gzip          = false
   base64_encode = false
-	part {
-		content_type = "text/cloud-config"
-		content = <<EOF
+  part {
+    content_type = "text/cloud-config"
+    content      = <<EOF
 #cloud-config
 # vim: syntax=yaml
 
@@ -23,7 +23,7 @@ chpasswd:
   expire: False
 
 EOF
-	}
-	count = "${var.vm_count}"
+  }
+  count = "${var.vm_count}"
 }
 

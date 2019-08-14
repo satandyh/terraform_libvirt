@@ -1,9 +1,9 @@
 data "template_cloudinit_config" "network_config" {
-	gzip = false
-	base64_encode = false
-	part {
-		content_type = "text/cloud-config"
-		content = <<EOF
+  gzip          = false
+  base64_encode = false
+  part {
+    content_type = "text/cloud-config"
+    content      = <<EOF
 #cloud-config
 # vim: syntax=yaml
 
@@ -19,7 +19,7 @@ network:
 				search: [example.com]
 				addresses: [8.8.8.8]
 EOF
-	}
-	count = "${var.vm_count}"
+  }
+  count = "${var.vm_count}"
 }
 
