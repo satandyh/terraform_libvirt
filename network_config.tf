@@ -22,4 +22,3 @@ EOF
   }
   count = "${var.vm_count}"
 }
-

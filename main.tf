@@ -68,4 +68,3 @@ resource "libvirt_domain" "centos7" {
   }
   count = "${var.vm_count}"
 }
-
