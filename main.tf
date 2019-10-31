@@ -10,7 +10,7 @@ provider "libvirt" {
 
 # create random id for naming
 resource "random_pet" "zoo" {
-  prefix    = "centos7"
+  prefix    = "k8s"
   separator = "-"
   length    = 2
   count     = "${var.vm_count}"
@@ -42,7 +42,7 @@ resource "libvirt_domain" "centos7" {
     mode = "host-passthrough"
   }
   vcpu   = "1"
-  memory = "512"
+  memory = "1792"
   network_interface {
     network_name   = "default"
     wait_for_lease = "true"
