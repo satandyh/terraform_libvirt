@@ -1,9 +1,9 @@
 # just get some ip
 
 output "vm" {
-  value = "${libvirt_domain.centos7.*.name}"
+  value = "${libvirt_domain.rh.*.name}"
 }
 
 output "ip" {
-  value = "${libvirt_domain.centos7.*.network_interface.0.addresses}"
+  value = "${libvirt_domain.rh.*.network_interface.0.addresses}"
 }

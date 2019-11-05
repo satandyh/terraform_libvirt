@@ -17,9 +17,13 @@ resource "random_pet" "zoo" {
 }
 
 # create volumes
-resource "libvirt_volume" "centos7" {
-  #  source = "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
-  source = "/var/lib/libvirt/images/CentOS-7-x86_64-GenericCloud.qcow2"
+resource "libvirt_volume" "rh" {
+  #source = "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
+  #source = "/var/lib/libvirt/images/CentOS-7-x86_64-GenericCloud.qcow2"
+  #source = "https://download.fedoraproject.org/pub/fedora/linux/releases/31/Cloud/x86_64/images/Fedora-Cloud-Base-31-1.9.x86_64.qcow2"
+  #source = "/var/lib/libvirt/images/Fedora-Cloud-Base-31-1.9.x86_64.qcow2"
+  #source = "https://cloud.centos.org/centos/7/atomic/images/CentOS-Atomic-Host-GenericCloud.qcow2"
+  source = "/var/lib/libvirt/images/CentOS-Atomic-Host-GenericCloud.qcow2"
   format = "qcow2"
   name   = "${element(random_pet.zoo.*.id, count.index)}.qcow2"
   pool   = "default"
@@ -35,7 +39,7 @@ resource "libvirt_cloudinit_disk" "commoninit" {
 }
 
 # create VM
-resource "libvirt_domain" "centos7" {
+resource "libvirt_domain" "rh" {
   name      = "${element(random_pet.zoo.*.id, count.index)}"
   cloudinit = "${element(libvirt_cloudinit_disk.commoninit.*.id, count.index)}"
   cpu = {
@@ -48,7 +52,7 @@ resource "libvirt_domain" "centos7" {
     wait_for_lease = "true"
   }
   disk {
-    volume_id = "${element(libvirt_volume.centos7.*.id, count.index)}"
+    volume_id = "${element(libvirt_volume.rh.*.id, count.index)}"
     scsi      = "true"
   }
   console {
