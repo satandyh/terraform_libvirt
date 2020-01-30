@@ -10,7 +10,7 @@ provider "libvirt" {
 
 # create random id for naming
 resource "random_pet" "zoo" {
-  prefix    = "k8s"
+  prefix    = "hardening-centos7"
   separator = "-"
   length    = 2
   count     = "${var.vm_count}"
@@ -18,12 +18,7 @@ resource "random_pet" "zoo" {
 
 # create volumes
 resource "libvirt_volume" "rh" {
-  #source = "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
-  #source = "/var/lib/libvirt/images/CentOS-7-x86_64-GenericCloud.qcow2"
-  #source = "https://download.fedoraproject.org/pub/fedora/linux/releases/31/Cloud/x86_64/images/Fedora-Cloud-Base-31-1.9.x86_64.qcow2"
-  #source = "/var/lib/libvirt/images/Fedora-Cloud-Base-31-1.9.x86_64.qcow2"
-  #source = "https://cloud.centos.org/centos/7/atomic/images/CentOS-Atomic-Host-GenericCloud.qcow2"
-  source = "/var/lib/libvirt/images/CentOS-Atomic-Host-GenericCloud.qcow2"
+  source = "/var/lib/libvirt/images/CentOS-7-x86_64-GenericCloud.qcow2"
   format = "qcow2"
   name   = "${element(random_pet.zoo.*.id, count.index)}.qcow2"
   pool   = "default"
@@ -34,19 +29,20 @@ resource "libvirt_volume" "rh" {
 resource "libvirt_cloudinit_disk" "commoninit" {
   name      = "${element(random_pet.zoo.*.id, count.index)}_init.iso"
   user_data = "${element(data.template_cloudinit_config.user_data.*.rendered, count.index)}"
-  #  network_config = "${element(data.template_cloudinit_config.network_config.*.rendered, count.index)}"
+  #network_config = "${element(data.template_cloudinit_config.network_config.*.rendered, count.index)}"
   count = "${var.vm_count}"
 }
 
 # create VM
 resource "libvirt_domain" "rh" {
+  #domaintype = "qemu"
   name      = "${element(random_pet.zoo.*.id, count.index)}"
   cloudinit = "${element(libvirt_cloudinit_disk.commoninit.*.id, count.index)}"
   cpu = {
     mode = "host-passthrough"
   }
-  vcpu   = "1"
-  memory = "1792"
+  vcpu   = "2"
+  memory = "2048"
   network_interface {
     network_name   = "default"
     wait_for_lease = "true"

@@ -17,7 +17,7 @@ network:
 			dhcp6: true
 			nameservers:
 				search: [example.com]
-				addresses: [8.8.8.8]
+				addresses: [1.1.1.1]
 EOF
   }
   count = "${var.vm_count}"

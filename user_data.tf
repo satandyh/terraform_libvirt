@@ -14,7 +14,7 @@ users:
   - name: root
     ssh_authorized_keys:
       - ${file("~/.ssh/id_rsa.pub")}
-  - name: ant
+  - name: user
     ssh_authorized_keys:
       - ${file("~/.ssh/id_rsa.pub")}
 
@@ -23,7 +23,7 @@ disable_root: False
 chpasswd:
   list: |
     root:password
-    ant:password
+    user:password
   expire: False
 
 EOF
