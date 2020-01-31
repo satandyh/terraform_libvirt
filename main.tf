@@ -49,7 +49,7 @@ resource "libvirt_domain" "rh" {
   }
   disk {
     volume_id = "${element(libvirt_volume.rh.*.id, count.index)}"
-    scsi      = "true"
+    #scsi      = "true"
   }
   console {
     type        = "pty"
