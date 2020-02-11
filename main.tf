@@ -9,11 +9,10 @@ provider "libvirt" {
 }
 
 # create random id for naming
-resource "random_pet" "zoo" {
-  prefix    = "hardening-centos7"
-  separator = "-"
-  length    = 2
-  count     = "${var.vm_count}"
+resource "random_id" "rndid" {
+  prefix      = "centos8-"
+  byte_length = 2
+  count       = "${var.vm_count}"
 }
 
 # create volumes
@@ -21,14 +20,14 @@ resource "libvirt_volume" "rh" {
   #source = "https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.1.1911-20200113.3.x86_64.qcow2"
   source = "/var/lib/libvirt/images/CentOS-8-GenericCloud-8.1.1911-20200113.3.x86_64.qcow2"
   format = "qcow2"
-  name   = "${element(random_pet.zoo.*.id, count.index)}.qcow2"
+  name   = "${element(random_id.rndid.*.hex, count.index)}.qcow2"
   pool   = "default"
   count  = "${var.vm_count}"
 }
 
 # create minidisk for first boot configuration
 resource "libvirt_cloudinit_disk" "commoninit" {
-  name      = "${element(random_pet.zoo.*.id, count.index)}_init.iso"
+  name      = "${element(random_id.rndid.*.hex, count.index)}_init.iso"
   user_data = "${element(data.template_cloudinit_config.user_data.*.rendered, count.index)}"
   #network_config = "${element(data.template_cloudinit_config.network_config.*.rendered, count.index)}"
   count = "${var.vm_count}"
@@ -37,7 +36,7 @@ resource "libvirt_cloudinit_disk" "commoninit" {
 # create VM
 resource "libvirt_domain" "rh" {
   #domaintype = "qemu"
-  name      = "${element(random_pet.zoo.*.id, count.index)}"
+  name      = "${element(random_id.rndid.*.hex, count.index)}"
   cloudinit = "${element(libvirt_cloudinit_disk.commoninit.*.id, count.index)}"
   cpu = {
     mode = "host-passthrough"

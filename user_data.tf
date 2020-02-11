@@ -7,8 +7,8 @@ data "template_cloudinit_config" "user_data" {
 #cloud-config
 # vim: syntax=yaml
 
-hostname: "${element(random_pet.zoo.*.id, count.index)}"
-fqdn: "${element(random_pet.zoo.*.id, count.index)}.example.com"
+hostname: "${element(random_id.rndid.*.hex, count.index)}"
+fqdn: "${element(random_id.rndid.*.hex, count.index)}.example.com"
 
 users:
   - name: root
