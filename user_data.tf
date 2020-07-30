@@ -13,10 +13,10 @@ fqdn: "${element(random_id.rndid.*.hex, count.index)}.example.com"
 users:
   - name: root
     ssh_authorized_keys:
-      - ${file("~/.ssh/id_rsa.pub")}
+      - ${file("~/.ssh/id_ed25519.pub")}
   - name: user
     ssh_authorized_keys:
-      - ${file("~/.ssh/id_rsa.pub")}
+      - ${file("~/.ssh/id_ed25519.pub")}
 
 ssh_pwauth: True
 disable_root: False

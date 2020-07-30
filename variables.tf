@@ -1,4 +1,4 @@
 # count of vm
 variable "vm_count" {
-  default = 1
+  default = 3
 }
